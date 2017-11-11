@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="messageSpace">
+   <!-- resultMap标签：映射实体与表 type：表示实体全路径名 id属性：为实体与表的映射取一个唯一的编号 -->
+	<resultMap type="com.july.networkdisk.vo.Message" id="messageMap">
+		<!-- id标签：映射主键属性 property属性：实体的属性名 column属性：表的字段名 -->
+		<id property="id" column="msg_id" />
+		<result property="userid" column="msg_userid" />
+		<result property="friendid" column="msg_friendid" />
+		<result property="content" column="msg_content" />
+		<result property="sendtime" column="msg_sendtime" />
+		<result property="msg_static" column="msg_static" />
+	</resultMap>
+	
+	<!-- 增加消息记录 -->
+	<insert id="addmessage" parameterType="com.july.networkdisk.vo.Message">
+		insert into message(msg_userid,msg_friendid,msg_content,msg_static) 
+		values (#{userid},#{friendid},#{content},0)
+	</insert>
+	<!-- 获取不在线时的消息的数量 -->
+	<select id="getmessage" parameterType="map" resultType="String">
+		select COUNT(msg_userid) from message where msg_userid=#{fid} and msg_friendid=#{uid} and msg_static=0 group by msg_friendid
+	</select>
+	<!-- 获取消息 -->
+	<select id="getcontent" parameterType="com.july.networkdisk.vo.Message" resultMap="messageMap">
+		select msg_content,msg_userid from message where msg_userid=#{friendid} and msg_friendid=#{userid} and msg_static=0
+	</select>
+	<!-- 修改消息状态 -->
+	<update id="upstatic" parameterType="com.july.networkdisk.vo.Message">
+		UPDATE message set msg_static=1 where msg_userid=#{friendid} and msg_friendid=#{userid}
+	</update>
+</mapper>

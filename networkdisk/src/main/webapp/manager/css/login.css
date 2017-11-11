@@ -1,0 +1,32 @@
+body{
+	background: #0A0A0A;
+}
+.mid{
+	width: 400px;
+	height: 700px;
+	margin: 50px auto;
+	
+}
+.cent{
+	width: 400px;
+	margin: 30px auto;
+
+}
+.font{
+	color: white;
+	font-weight: bold;
+	font-size: 17px;
+}
+form{
+	width: 400px;
+	
+}
+.text{
+	border-radius: 15px;
+	height: 20px;
+	width: 173px;
+}
+.botton{
+	margin: 30px 100px;
+}
+

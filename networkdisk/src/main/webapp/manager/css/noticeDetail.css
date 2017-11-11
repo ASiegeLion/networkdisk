@@ -1,0 +1,246 @@
+	@charset "utf-8";
+html {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+body {
+	background-color: #f6f6f6;
+	font-family: Lato;
+	margin: 0px;
+}
+
+body p {
+	font-size: 0.9em;
+}
+
+body p.sub {
+	color: #999;
+}
+
+body h1,
+body h2,
+body h3,
+body h4,
+body h5,
+body h6 {
+	text-transform: uppercase;
+	font-weight: 300;
+}
+
+#in-nav {
+	background-color: white;
+	background-repeat: repeat;
+	height: 50px;
+	padding-top: 10px;
+}
+
+#in-nav ul {
+	position: relative;
+}
+
+#in-nav .span1 ul li {
+	width: 60px;
+	height: 30px;
+	font-size: 16px;
+	text-align: center;
+	list-style-type: none;
+	display: inline-block;
+}
+
+#in-nav .span2 ul li{
+	width: 40px;
+	height: 30px;
+	list-style:none;
+	font-size: 16px;
+	margin-left:10px;
+	display: block;
+	float: left;
+}
+#in-nav .span2{
+	width: 500px;
+	height: 40px;
+	text-align: center;
+	float: right;
+}
+#in-nav .span1 ul li.active {
+	border-bottom: 5px solid #222222;
+	border-radius: 8px;
+}
+
+#in-nav ul li a {
+	color: #000000;
+}
+
+#in-nav .span1 ul li a:hover {
+	color: #5BC0DE;
+	text-decoration: none;
+}
+#in-nav .span2 ul li a:hover {
+	text-decoration: none;
+}
+
+#in-nav .logo {
+	float: left;
+}
+
+#in-nav .logotitle {
+	display: inline;
+	font-size: 18px;
+	color: #000000;
+}
+
+#in-nav .logotitle:hover {
+	text-decoration: none;
+}
+
+#in-nav ul.pull-right {
+	top: 0px !important;
+}
+
+.user {
+	position: relative;
+	float: right;
+	left: 20px;
+	text-align: left;
+	display: none;
+}
+
+#triangle-up {
+	margin-left: 10px;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 10px solid #5E5E5E;
+}
+
+.userpan {
+	width: 240px;
+	height: 300px;
+	margin-top: 6px;
+	border-radius: 5px;
+	background: #FFFFFF;
+	box-shadow: 0px 1px 10px #111111;
+}
+
+.userpan_2 {
+	height: 90px;
+	padding-top: 20px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	background: #5E5E5E;
+}
+
+.userpan_3 {
+	height: 60px;
+	padding-top: 20px;
+	padding-left: 15px;
+}
+
+.userpan_4 p {
+	margin: 0px;
+	padding-left: 15px;
+	text-align: left;
+	height: 37.5px;
+	line-height: 37.5px;
+}
+
+.userpan_4 p:hover {
+	background-color:#888888;
+	color: #FFFFFF;
+}
+
+img.userpic {
+	border-radius: 40px;
+	border: 2px solid #3C3C3C;
+}
+
+#in-nav .user a {
+	padding: 0px;
+	font-size: 14px;
+	color: #FFFFFF;
+}
+
+.user a:hover {
+	text-decoration: none;
+}
+
+.user .u1 {
+	width: 200px;
+	height: 50px;
+	margin: 0px auto;
+}
+
+#in-nav .user .svip {
+	height: 25px;
+	width: 90px;
+	font-size: 13px;
+	text-align-last: center;
+	line-height: 25px;
+	border-radius: 25px;
+	color: #FFFFFF;
+	display: inline-block;
+	background: #222222;
+}
+
+#in-nav .user .svip:hover {
+	cursor: pointer;
+	background: #C12E2A;
+}
+
+#in-sub-nav {
+	height: 180px;
+	background-color: #333333;
+	-moz-box-shadow: inset 0px 0px 10px #111111;
+	-webkit-box-shadow: inset 0px 0px 10px #111111;
+	box-shadow: inset 0px 0px 10px #111111;
+}
+.noticePage{
+	width: 980px;
+	min-height: 534px;
+    margin: auto;
+	background-color: #FFF;
+	border-radius: 6px;
+	border-bottom: 14px solid #f6f9fd;
+	box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+	font-family: "微软雅黑";
+	}
+	
+.noticeTitle{
+	font-size: 22px;
+	text-align: center;
+	margin-top: 30px;
+}
+.noticeContent{
+	font-size: 16px;
+	
+}
+textarea{
+	margin: auto;
+	margin-top: 30px;
+	margin-left: 140px;
+	border: hidden;
+	text-indent:35px
+}
+ .goback{
+	display:block;
+	width:64px;
+	height: 35px;
+	background: #4E97FF;
+	margin-left: 50px;
+	border-radius: 5px;
+	color: white;
+	line-height: 35px;
+	font-size: 16px;
+	text-align: center;
+	float: left;
+	margin-top: 20px;
+} 
+.goback:hover{
+	text-decoration: none;
+	color:#EFF4F8;
+}

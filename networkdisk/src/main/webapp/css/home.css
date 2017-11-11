@@ -1,0 +1,114 @@
+body{
+	margin: 0;
+	font-family: "微软雅黑";
+	overflow:hidden;
+}
+a{
+	color:#fff;
+	text-decoration: none;
+}
+.head{
+	width: 100%;
+	height: 80px;
+	background: black;
+	line-height: 80px;
+}
+.logo{
+	float: left;
+	margin-top:20px;
+}
+.head_right{
+	width: 250px;
+	height: 20px;
+	font-size: 20px;
+	color: white;
+	float: right;
+	margin-right: 40px;
+}
+.head_right span
+{
+	margin-right: 10px;
+}
+.head_right .aa
+{
+	font-size: 10px;
+	
+}
+.head_right a
+{
+	text-decoration: none;
+	
+}
+.head_right a:HOVER
+{
+	color: white;
+	cursor: pointer;
+}
+.cont{
+	width: 100%;
+	height: 600px;
+	overflow:auto;
+	background: ;
+	margin: 0 auto;
+}
+.cont_left{
+	width: 15%;
+	height: 93%;
+	float: left;
+	background: black;
+	font-size: 22px;
+}
+.cont_left a
+{
+	text-decoration: none;
+}
+.cont_left a:HOVER,a:ACTIVE
+{
+	text-decoration: none;
+	color:gray;
+}
+.cont_right{
+	width: 85%;
+	height: 93%;
+	float: left;
+	background: whitesmoke;
+
+}
+.bot{
+	width: 100%;
+	height: 60px;
+	background: black;
+	color: white;
+	font-size:18px;
+	text-align: center;
+	line-height: 60px;
+	border-left:5px solid #000;
+}
+
+.page{
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+.right-03{
+	margin-top: 50px;
+	list-style: none;
+}
+.right-03 li{
+	margin-top: 30px;
+}
+.right-03 input{
+	width:340px;
+	height: 40px;
+	margin-left: 10px;
+}
+.pwd-li1{
+	margin-left:78px;
+}
+.pwd-li2{
+	margin-left: 50px;
+}
+.update_btn
+{
+	text-align: center;
+}

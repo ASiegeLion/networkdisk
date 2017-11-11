@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="userSpace">
+	<!-- resultMap标签：映射实体与表 type：表示实体全路径名 id属性：为实体与表的映射取一个唯一的编号 -->
+	<resultMap type="com.july.networkdisk.vo.User" id="userMap">
+		<!-- id标签：映射主键属性 property属性：实体的属性名 column属性：表的字段名 -->
+		<id property="id" column="user_id" />
+		<result property="name" column="user_name" />
+		<result property="passWord" column="user_password" />
+		<result property="trueName" column="user_truename" />
+		<result property="email" column="user_email" />
+		<result property="phone" column="user_phone" />
+		<result property="isadmin" column="user_isadmin" />
+		<result property="sex" column="user_sex" />
+		<result property="about" column="user_about" />
+		<result property="addtime" column="user_cTime" />
+		<result property="photo" column="user_photo" />
+	</resultMap>
+	
+	<!-- 增加员工 -->
+	<insert id="add" parameterType="com.july.networkdisk.vo.User">
+		insert into user(user_id,user_name,user_password,user_truename,user_email,user_phone,user_isadmin,user_sex,user_about,user_photo) 
+		values (#{id},#{name},#{passWord},#{trueName},#{email},#{phone},#{isadmin},#{sex},#{about},#{photo})
+	</insert>
+	<!-- 通过用户名密码查找一个用户信息 -->
+	<select id="findOne" parameterType="com.july.networkdisk.vo.User" resultMap="userMap">
+		select user_id,user_name,user_password,user_truename,user_email,user_phone,user_isadmin,user_sex,user_about,user_cTime from `user` where user_name=#{name} and user_password=#{passWord}
+	</select>
+	<!-- 通过邮箱密码查找一个用户信息 -->
+	<select id="findOneByEm" parameterType="com.july.networkdisk.vo.User" resultMap="userMap">
+		select * from `user` where user_email=#{email} and user_password=#{passWord}
+	</select>
+	<!-- 通过手机号密码查找一个用户信息 -->
+	<select id="findOneByPhone" parameterType="com.july.networkdisk.vo.User" resultMap="userMap">
+		select * from `user` where user_phone=#{phone} and user_password=#{passWord}
+	</select>
+	
+	<!-- 通过id查找用户信息 -->
+	<select id="get" parameterType="String" resultMap="userMap">
+		select user_id,user_name,user_password,user_truename,user_email,user_phone,user_isadmin,user_sex,user_about,user_cTime from `user` where user_id=#{id}
+	</select>
+	<!--查找头像 -->
+	<select id="getphoto" parameterType="String" resultMap="userMap">
+		select * from `user` where user_id=#{id}
+	</select>
+	<!-- 查找所有用户信息 -->
+	<select id="getAll" resultMap="userMap">
+		select * from `user` where user_isadmin=1
+
+	</select>
+
+	<!-- 用户注册 -->
+	<insert id="save" parameterType="com.july.networkdisk.vo.User">
+		insert into user(user_id,user_name,user_password,user_truename,user_email,user_phone,user_sex,user_photo) 
+		values (#{id},#{name},#{passWord},#{trueName},#{email},#{phone},#{sex},#{photo})
+	</insert>
+	<!-- 用户个人资料修改 -->
+	<update id="update" parameterType="com.july.networkdisk.vo.User">
+		UPDATE `user` SET user_email=#{email},user_phone=#{phone},user_sex=#{sex},user_about=#{about} WHERE user_id=#{id}
+	</update>
+	<!-- 头像上传 -->
+	<update id="photoup" parameterType="com.july.networkdisk.vo.User">
+		UPDATE `user` SET user_photo=#{photo} WHERE user_id=#{id}
+	</update>
+	<!-- 密码修改 -->
+	<update id="updatePassword" parameterType="com.july.networkdisk.vo.User">
+		UPDATE `user` SET user_password=#{passWord} WHERE user_id=#{id}
+	</update>
+	<!-- 用户名验证查找 -->
+	<select id="selectUserByname" resultMap="userMap">
+	 select * from user where user_name=#{name}
+	</select>
+	<!-- 手机号验证查找 -->
+	<select id="selectUserBytel" resultMap="userMap">
+	 select * from `user` where user_phone=#{phone}
+	</select>
+	<!-- 邮箱验证查找 -->
+	<select id="selectUserByemail" resultMap="userMap">
+	 select * from user where user_email=#{email}
+	</select>
+	<!--此处为好友信息-->
+	<!-- 查找所有好友信息 -->
+	<select id="getAllfriend" parameterType="String" resultMap="userMap">
+		select user_id,user_name,user_password,user_truename,user_email,user_phone,user_isadmin,user_sex,user_about,user_cTime from user where user_id in (select fri_fid from friend where fri_uid=#{user_id} and fri_static=1)
+	</select>	
+	<select id="getOnefriend" resultMap="userMap">
+		select user_id,user_name,user_password,user_truename,user_email,user_phone,user_isadmin,user_sex,user_about,user_cTime from user where user_name=#{0} or user_phone=#{0}
+	</select>
+	<!-- 查找添加自己为好友的信息 -->
+	<select id="getfriAll" resultMap="userMap">
+		select distinct user_id,user_name,user_photo,fri_addtime from user,friend where user_id in (select fri_fid from friend where fri_uid = #{uid} and fri_static=0)
+	</select>
+</mapper>
+
+
+
+
+
+
+
+

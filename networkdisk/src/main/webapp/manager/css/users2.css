@@ -1,0 +1,64 @@
+.head{
+	width: 30%;
+	height: 60px;
+	float: left;
+}
+.search{
+	width: 35%;
+	height: 60px;
+	float: left;
+	margin-top: 15px;
+	margin-left: 30%;
+}
+.cont{
+	width: 100%;
+	height: 800px;
+	float: left;
+}
+a{
+	text-decoration: none;
+	color: dimgray;
+}
+table{
+	width: 100%;
+	border-collapse: collapse;
+}
+tr{
+	width: 100%;
+}
+td{
+	font-size: 18px;
+	width: 12.5%;
+	height: 50px;
+	text-align: center;
+}
+.aaa{
+	border: 0;
+	width: 100%; 
+	text-align: center; 
+	height: 80%;
+	font-size:20px;
+	background: whitesmoke;
+}
+.m-head{
+	 font-size: 35px;
+	 font-family:serif;
+	 float: left;
+	 margin-top: 15px;
+	 margin-left: 20px;
+}
+.m-tr td{
+	 font-size: 16px;
+	 height: 80px;
+}
+table tr{
+	border-bottom: 1px solid #A8A8A8;
+}
+.m-tr2 td input{
+	font-size: 14px;
+	height:40px;
+}
+.m-tr2 td {
+	font-size: 14px;
+	height:40px;
+}

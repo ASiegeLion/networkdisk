@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sharefileSpace">
+	<!-- resultMap标签：映射实体与表 type：表示实体全路径名 id属性：为实体与表的映射取一个唯一的编号 -->
+	<resultMap type="com.july.networkdisk.vo.Sharefile" id="sharefileMap">
+		<!-- id标签：映射主键属性 property属性：实体的属性名 column属性：表的字段名 -->
+		<id property="id" column="sf_id" />
+		<result property="magid" column="sf_magid" />
+		<result property="fileandcateid" column="sf_fileandcateid" />
+		<result property="iscate" column="sf_iscate" />
+	</resultMap>
+	<!-- 分享文件 -->
+	<insert id="sharefile" parameterType="com.july.networkdisk.vo.Sharefile">
+		INSERT INTO sharefile(sf_id,sf_magid,sf_fileandcateid,sf_iscate) VALUES(#{id},#{magid},#{fileandcateid},#{iscate})
+	</insert>
+	
+	<!-- 分享的文件 -->
+	<select id="sharecent" parameterType="com.july.networkdisk.vo.Sharefile" resultMap="sharefileMap">
+		select * from sharefile where sf_magid=#{magid}
+	</select>
+	
+	<!-- 根据magid查找分享的文件 -->
+	<select id="sharecentbyid" parameterType="String" resultMap="sharefileMap">
+		select * from sharefile where sf_magid=#{magid}
+	</select>
+	<!-- 取消分享 -->
+	<delete id="cancelshare" parameterType="com.july.networkdisk.vo.Sharefile">
+		delete from sharefile where sf_magid=#{magid} and sf_fileandcateid=#{fileandcateid}
+	</delete>
+</mapper>

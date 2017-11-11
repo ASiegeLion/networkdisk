@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cateSpace">
+	<!-- resultMap标签：映射实体与表 type：表示实体全路径名 id属性：为实体与表的映射取一个唯一的编号 -->
+	<resultMap type="com.july.networkdisk.vo.Categorie" id="categorieMap">
+		<!-- id标签：映射主键属性 property属性：实体的属性名 column属性：表的字段名 -->
+		<id property="id" column="cat_id" />
+		<result property="name" column="cat_name" />
+		<result property="reid" column="cat_reid" />
+		<result property="uid" column="cat_uid" />
+		<result property="state" column="cat_state" />
+		<result property="addtime" column="cat_addtime" />
+	</resultMap>
+	
+	
+	<resultMap type="com.july.networkdisk.vo.CateTree" id="catetreeMap">
+		<!-- id标签：映射主键属性 property属性：实体的属性名 column属性：表的字段名 -->
+		<id property="cateid" column="cat_id" />
+		<result property="catename" column="cat_name" />
+	</resultMap>
+	<!-- 根据条件查找文件夹 -->
+	<select id="getAllcate" parameterType="map" resultMap="catetreeMap">
+		select cat_id,cat_name from categorie
+		<where>
+			<if test="cat_uid != null">
+				and cat_uid = #{cat_uid}
+			</if>
+			<if test="cat_reid == null">
+				and cat_reid is null
+			</if>
+			<if test="cat_reid != null">
+				and cat_reid =#{cat_reid}
+			</if>
+			<if test="cat_state != null">
+				and cat_state =#{cat_state}
+			</if>
+		</where>
+		ORDER BY cat_addtime DESC
+	</select>
+	
+	
+	
+	<!-- 增加文件夹 -->
+	<insert id="save" parameterType="com.july.networkdisk.vo.Categorie">
+		insert into categorie(cat_id,cat_name,cat_reid,cat_uid,cat_state) values(#{id},#{name},#{reid},#{uid},#{state})
+	</insert>
+	<!-- 根据条件查找文件夹 -->
+	<select id="findAllCateByUser" parameterType="map" resultMap="categorieMap">
+		select * from categorie
+		<where>
+			<if test="cat_uid != null">
+				and cat_uid = #{cat_uid}
+			</if>
+			<if test="cat_reid == null">
+				and cat_reid is null
+			</if>
+			<if test="cat_reid != null">
+				and cat_reid =#{cat_reid}
+			</if>
+			<if test="cat_state != null">
+				and cat_state =#{cat_state}
+			</if>
+		</where>
+		ORDER BY cat_addtime DESC
+	</select>
+	
+	<!-- 显示回收站的文件夹 -->
+	<select id="showRecycleCate" parameterType="string" resultMap="categorieMap">
+		select * from
+		categorie where cat_uid = #{cat_uid} and cat_state = 1;
+	</select>
+	
+	<!-- 根据父级文件夹的id查找子级文件夹id -->
+	<select id="findCateByCatereid" parameterType="map" resultType="string">
+		select cat_id from categorie
+		<where>
+			<if test="cat_reid == null">
+				and cat_reid is null
+			</if>
+			<if test="cat_reid != null">
+				and cat_reid =#{cat_reid}
+			</if>
+			<if test="cat_state != null">
+				and cat_state =#{cat_state}
+			</if>
+		</where>
+	</select>
+	
+	
+	<!-- 查找一个文件夹所有信息 区分是否已经回收-->
+	<select id="get" parameterType="map" resultMap="categorieMap">
+		select * from
+		categorie where cat_id = #{cat_id}
+		<if test="cat_state != null">
+			 and cat_state=#{cat_state}
+		</if>
+	</select>
+	
+	<!--删除一个文件夹 -->
+	<delete id="deleteOneCate" parameterType="String">
+		delete from categorie where 
+		cat_id = #{cat_id}
+	</delete>
+	
+	<!-- 修改文件夹名称或者是否进入回收站 -->
+	<update id="updateCate" parameterType="map">
+		update categorie
+		<set>
+			<if test=" cat_name != null">
+				cat_name= #{cat_name},
+			</if>
+			<if test=" cat_state != null">
+				cat_state= #{cat_state},
+			</if>
+		</set>
+		where cat_id = #{cat_id}
+	</update>
+	
+	<!-- 移动文件夹-->
+	<update id="updateCatereid" parameterType="map">
+		update categorie set
+			<if test=" cat_reid != null">
+				cat_reid= #{cat_reid}
+			</if>
+			<if test=" cat_reid == null">
+				cat_reid = null
+			</if>
+		where cat_id = #{cat_id}
+	</update>
+	
+	<!-- 根据id查找文件夹-->
+	<select id="findbyid" parameterType="String" resultMap="categorieMap">
+		select * from categorie where cat_id=#{fileandcateid} and cat_state = 0
+	</select>
+	<!-- 根据id查找文件夹的下层文件夹-->
+	<select id="getcatenext" parameterType="String" resultMap="categorieMap">
+		select * from categorie where cat_reid=#{cateid}
+	</select>
+	<!-- 根据uid查找根文件夹 -->
+	<select id="getlistbyuid" parameterType="com.july.networkdisk.vo.Categorie" resultMap="categorieMap">
+		select * from categorie where cat_uid=#{uid} and cat_reid = #{reid} and cat_state = 0
+	</select>
+	<select id="getlistcateisnull" parameterType="com.july.networkdisk.vo.Categorie" resultMap="categorieMap">
+		select * from categorie where cat_uid=#{uid} and cat_reid is null and cat_state = 0
+	</select>
+	<!-- 搜索文件夹 -->
+	<select id="search" parameterType="map" resultMap="categorieMap">
+		select * from categorie where cat_uid=#{uid} and cat_state=0 and cat_name like #{str}
+	</select>
+	<!-- 根据id查找文件名 -->
+	<select id="getcatename" parameterType="String" resultType="string">
+		select cat_name from categorie where cat_id=#{cateid}
+	</select>
+</mapper>

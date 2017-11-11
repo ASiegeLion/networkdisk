@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fileSpace">
+	<!-- resultMap标签：映射实体与表 type：表示实体全路径名 id属性：为实体与表的映射取一个唯一的编号 -->
+	<resultMap type="com.july.networkdisk.vo.NetFile" id="fileMap">
+		<!-- id标签：映射主键属性 property属性：实体的属性名 column属性：表的字段名 -->
+		<id property="id" column="file_id" />
+		<result property="name" column="file_name" />
+		<result property="uid" column="file_uid" />
+		<result property="catid" column="file_catid" />
+		<result property="path" column="file_path" />
+		<result property="addtime" column="file_addtime" />
+		<result property="type" column="file_type" />
+		<result property="size" column="file_size" />
+		<result property="downum" column="file_downum" />
+		<result property="deletesign" column="file_deletesign" />
+	</resultMap>
+
+	<!-- 增加文件 -->
+	<insert id="save" parameterType="com.july.networkdisk.vo.NetFile">
+		insert into
+		file(file_id,file_name,file_uid,file_catid,file_path,file_type,file_size,file_downum,file_deletesign)
+		values
+		(#{id},#{name},#{uid},#{catid},#{path},#{type},#{size},#{downum},#{deletesign})
+	</insert>
+	
+	<!-- 根据id查找文件 -->
+	<select id="getone" parameterType="String" resultMap="fileMap">
+		select * from file where file_id=#{fid} and file_deletesign = 0
+	</select>
+	<!-- 根据uid查找文件 -->
+	<select id="getlistbyuid" parameterType="com.july.networkdisk.vo.NetFile" resultMap="fileMap">
+		select * from file where file_uid=#{uid} and file_catid = #{catid} and file_deletesign = 0
+	</select>
+	<select id="getlistcateisnull" parameterType="com.july.networkdisk.vo.NetFile" resultMap="fileMap">
+		select * from file where file_uid=#{uid} and file_catid is null and file_deletesign = 0
+	</select>
+	<!-- 根据cateid查找文件 -->
+	<select id="getcatenextfile" parameterType="String" resultMap="fileMap">
+		select * from file where file_catid=#{cateid}
+	</select>
+	<!-- 搜索 -->
+	<select id="search" parameterType="map" resultMap="fileMap">
+		select * from file where file_uid=#{uid} and file_deletesign=0  and file_name like #{str}
+	</select>
+	
+	<!-- 根据条件查找文件 -->
+	<select id="findAllByUser" parameterType="map" resultMap="fileMap">
+		select * from file
+		<where>
+			<if test="file_uid != null">
+				and file_uid = #{file_uid}
+			</if>
+			<if test="file_name != null">
+				and file_name = #{file_name}
+			</if>
+			<if test="file_catid == null">
+				and file_catid is null
+			</if>
+			<if test="file_catid != null">
+				and file_catid =#{file_catid}
+			</if>
+			<if test="file_deletesign != null">
+				and file_deletesign =#{file_deletesign}
+			</if>
+		</where>
+			ORDER BY file_addtime DESC
+	</select>
+	
+	<!-- 根据文件种类查找文件 -->
+	<select id="findAllByType" parameterType="map" resultMap="fileMap">
+		select * from file where file_deletesign = 0 and file_uid=#{file_uid} and file_type in
+		<foreach collection="list" index="index" item="file_type" open="(" separator="," close=")" >    
+            #{file_type}    
+        </foreach>
+			ORDER BY file_addtime DESC
+	</select>
+	
+	
+	<!-- 查找其他类别的文件 -->
+	<select id="findOtherType" parameterType="map" resultMap="fileMap">
+		select * from file where file_deletesign = 0 and file_uid=#{file_uid} and file_type not in
+		<foreach collection="list" index="index" item="file_type" open="(" separator="," close=")" >    
+            #{file_type}    
+        </foreach>
+			ORDER BY file_addtime DESC
+	</select>
+	
+	<!-- 按时间分组 查找-->
+	<select id="findTime" parameterType="map" resultType="String">
+	   select date(file_addtime) a from file where file_deletesign = 0 and file_uid=#{file_uid} and file_type in
+		<foreach collection="list" index="index" item="file_type" open="(" separator="," close=")" >    
+            #{file_type}    
+        </foreach>
+         GROUP BY a ORDER BY a DESC;
+	</select>
+	
+	<!-- 根据文件夹ID查找文件ID -->
+	<select id="findFileIDByCateID" parameterType="map" resultType="String">
+		select file_id from file
+		<where>
+			<if test="file_catid == null">
+				and file_catid is null
+			</if>
+			<if test="file_catid != null">
+				and file_catid =#{file_catid}
+			</if>
+			<if test="file_deletesign != null">
+				and file_deletesign =#{file_deletesign}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 查找已经在回收站的文件-->
+	<select id="showRecycleFile" parameterType="String" resultMap="fileMap">
+		select * from
+		file where file_uid = #{file_uid}
+		and file_deletesign = 1
+	</select>
+	
+	<!-- 查找一个文件所有信息 区分是否已经回收-->
+	<select id="get" parameterType="map" resultMap="fileMap">
+		select * from
+		file where file_id = #{file_id}
+		<if test="file_deletesign != null">
+			 and file_deletesign=#{file_deletesign}
+		</if>
+	</select>
+	
+	<!-- 删除一个文件 -->
+	<delete id="deleteOne" parameterType="String">
+		delete from file where 
+		file_id = #{file_id}
+	</delete>
+	<!-- 删除一批文件 -->
+	<delete id="deleteBatch" parameterType="java.util.List">
+		delete from file where file_id in
+		<foreach item="file_id" index="index" collection="list" open="("
+			separator="," close=")">
+			#{file_id}
+		</foreach>
+	</delete>
+	
+	
+	<!-- 修改文件属性 -->
+	<update id="updateFile" parameterType="map">
+		update file
+		<set>
+			<if test=" file_name != null">
+				file_name= #{file_name},
+			</if>
+			<if test=" file_downum != null">
+				file_downum= #{file_downum},
+			</if>
+			<if test=" file_deletesign != null">
+				file_deletesign=#{file_deletesign},
+			</if>
+			<if test=" file_type != null">
+				file_type=#{file_type},
+			</if>
+		</set>
+		where file_id = #{file_id}
+	</update>
+	
+	<!-- 移动一个文件的目录 -->
+	<update id="updateFileCate" parameterType="map">
+		update file set
+			<if test=" file_catid != null">
+				file_catid= #{file_catid}
+			</if>
+			<if test=" file_catid == null">
+				file_catid = null
+			</if>
+		where file_id = #{file_id}
+	</update>
+	
+	<!-- 把一批文件放入或放出回收站 -->
+	<update id="updateDeleteSingBatch" parameterType="map">
+		update file set file_deletesign = #{file_deletesign} where file_id in
+		<foreach collection="list" index="index" item="file_id" open="(" separator="," close=")" >    
+            #{file_id}    
+        </foreach>  
+	</update>
+	
+</mapper>
+
+
+
+
+
+
+
+

@@ -1,0 +1,25 @@
+@charset "utf-8";
+.content{
+	width:900px;
+	height:550px;
+	background-color:rgba(255,255,255,0.7);
+	margin:0px auto;
+	margin-top: 10px;
+}
+table{
+	margin-top: 30px;
+	margin-left: 100px;
+}
+td{
+	
+	width: 200px;
+	margin: 0px auto;
+}
+tr{
+	margin-top: 40px;
+	height: 250px;
+}
+p{
+    margin-left: 30px;
+    margin-top: 15px;
+}
